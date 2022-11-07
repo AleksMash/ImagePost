@@ -72,4 +72,8 @@ def fetch_nasa_epic_pictures():
 
 if __name__ == '__main__':
     load_dotenv()
+    response = requests.get(f'https://api.spacexdata.com/v5/launches/gbvhncgbfv')
+    print(response.status_code)
+
+
     # put any test calls here ...
