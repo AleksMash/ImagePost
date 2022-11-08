@@ -1,4 +1,4 @@
-# Пкбликация снимков космоса в Telegram-канале
+# Публикация снимков космоса в Telegram-канале
 
 Скрипт позволяет скачивать фото космоса через API SpaceX 
 (https://github.com/r-spacex/SpaceX-API/tree/master/docs/launches/v5) и NASA (https://api.nasa.gov/) и затем запустить их публикацию
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 ```python fetch_nasa_epic_pictures.py```
 
-###fetch_spacex_images.py
+### fetch_spacex_images.py
 
 Скачивает фотографии указанного ID запуска в папку **images** с API SpaceX (https://github.com/r-spacex/SpaceX-API/blob/master/docs/launches/v5/one.md).
 
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 В случае если ID запуска не будет указан скрипт попытается загрузить фото последнего запуска. При отсутствии фотографий последнего
 запуска скрипт выдаст ошибку.
 
-###telbot.py
+### telbot.py
 
 Выполняет посредством Telegram-бота публикацию фотографий из папки **images** в Telegram-канале, заданном в переменной окружения TEL_CHANNEL.
 Токен бота указывается в переменной окружения BOT_TOKEN. Бот должен быть администратором канала. Фотографии выбираются хаотично и публикуются циклически с интервалом,
@@ -66,6 +66,6 @@ pip install -r requirements.txt
 где `интервал` - интервал публикации в часах. 
 
 
-###common.py
+### common.py
 
 Модуль содержит функции, используемые другими модулями.
