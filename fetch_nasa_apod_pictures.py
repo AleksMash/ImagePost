@@ -14,4 +14,4 @@ medias = response.json()
 for image_num, media in enumerate(medias):
     image_url = media['url']
     ext = get_file_extension(image_url)
-    load_image(image_url, 'nasa_apod_images', f'nasa_apod_{image_num}{ext}')
+    load_image(image_url, 'images', f'nasa_apod_{image_num}{ext}')
