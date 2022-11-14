@@ -12,6 +12,7 @@ response = requests.get('https://api.nasa.gov/planetary/apod', params=params)
 response.raise_for_status()
 medias = response.json()
 for image_num, media in enumerate(medias):
-    image_url = media['url']
-    ext = get_file_extension(image_url)
-    load_image(image_url, 'images', f'nasa_apod_{image_num}{ext}')
+    if media['media_type']=='image':
+        image_url = media['url']
+        ext = get_file_extension(image_url)
+        load_image(image_url, 'images', f'nasa_apod_{image_num}{ext}')

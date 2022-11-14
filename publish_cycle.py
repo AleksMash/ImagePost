@@ -5,9 +5,11 @@ from random import shuffle
 from time import sleep
 import os
 
+class NetworkProblem(BaseException):
+    pass
 
 load_dotenv()
-channel=os.environ['TEL_CHANNEL']
+channel=os.environ['TG_CHANNEL']
 parser = argparse.ArgumentParser(
     description='Publish images from the folder images'
                 ' in specified interval (hours)'
@@ -19,9 +21,24 @@ try:
 except KeyError:
    interval=args.interval*3600
 images=os.listdir('images')
-bot = telegram.Bot(token=os.environ['BOT_TOKEN'])
+bot = telegram.Bot(token=os.environ['TG_BOT_TOKEN'])
 while True:
     shuffle(images)
     for image in images:
-        bot.send_document(chat_id=channel, document=open(f'images/{image}', 'rb'))
-        sleep(interval)
+        # try to send for 5 times if having troubles with Internet connection, otherwise raise our exception (see above)
+        for i in range(5):
+            connection_ok=False
+            try:
+                with open(f'images/{image}', 'rb') as f:
+                    bot.send_document(chat_id=channel, document=f)
+            except telegram.error.NetworkError:
+                print('Попытка', i)
+                if i>0:
+                    sleep(3)
+            else:
+                connection_ok=True
+                break
+        if connection_ok:
+            sleep(interval)
+        else:
+            raise NetworkProblem('Проблема с сетевым подключением')

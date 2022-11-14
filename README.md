@@ -17,9 +17,9 @@ pip install -r requirements.txt
 окружения:
 
 - NASA_TOKEN - NASA API ключ (см. https://api.nasa.gov/)
-- BOT_TOKEN - токен Telegram - бота, через которого будет производится публикация в Telegram-канале (бот должен быть включен
+- TG_BOT_TOKEN - токен Telegram - бота, через которого будет производится публикация в Telegram-канале (бот должен быть включен
 в число администраторов канала)
-- TEL_CHANNEL - ссылка на Telegramm-канал (например @MyChannel)
+- TG_CHANNEL - ссылка на Telegramm-канал (например @MyChannel)
 - PUBLISHING_INTERVAL - интервал публикации фотографий ботом в часах.
 
 ### fetch_nasa_apod_pictures.py
