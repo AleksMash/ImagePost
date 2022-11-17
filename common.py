@@ -12,7 +12,7 @@ def get_file_extension(file_url):
     return os.path.splitext(path)[1]
 
 
-def load_image(url, dir, name, params={}):
+def load_image(url, dir, name, params=None):
     os.makedirs(dir, exist_ok=True)
     filename = Path.cwd()/dir/name
     response = requests.get(url, params=params)
