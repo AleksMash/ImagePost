@@ -1,4 +1,6 @@
 import urllib.parse
+import telegram
+from retry import retry
 import os
 import requests
 from pathlib2 import Path
@@ -18,7 +20,7 @@ def load_image(url, dir, name, params={}):
     with open(filename, 'wb') as file:
         file.write(response.content)
 
-
+@retry(telegram.error.NetworkError, jitter=0.5, tries=5)
 def send_image_to_tgchannel(image_file_path, tg_bot, channel):
     with open(image_file_path, 'rb') as f:
         tg_bot.send_document(chat_id=channel, document=f)
