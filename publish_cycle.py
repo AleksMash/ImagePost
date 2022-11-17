@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from random import shuffle
 from time import sleep
 import os
+from pathlib2 import Path
+from common import send_image_to_tgchannel
 
 class NetworkProblem(BaseException):
     pass
@@ -29,8 +31,8 @@ while True:
         for i in range(5):
             connection_ok=False
             try:
-                with open(f'images/{image}', 'rb') as f:
-                    bot.send_document(chat_id=channel, document=f)
+                file_path = Path.cwd() / 'images' / image
+                send_image_to_tgchannel(file_path, bot, channel)
             except telegram.error.NetworkError:
                 print('Попытка', i)
                 if i>0:
