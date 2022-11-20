@@ -11,15 +11,14 @@ class NoImagesError(BaseException):
     pass
 
 
-def publish_random_image(tg_bot, channel):
-    images = os.listdir('images')
-    if images:
-        image = images[randint(0, len(images)-1)]
-        file_path = Path.cwd() / 'images' / image
-        send_image_to_tgchannel(file_path, tg_bot, channel)
-    else:
+def publish_random_image(tg_bot, channel, image_folder_path):
+    images = os.listdir(image_folder_path)
+    if not images:
         raise NoImagesError('There are no images.'
                             ' You should download them first.')
+    image = images[randint(0, len(images)-1)]
+    file_path = Path.cwd() / image_folder_path / image
+    send_image_to_tgchannel(file_path, tg_bot, channel)
 
 
 def main():
@@ -29,18 +28,17 @@ def main():
                                                  ' images from the folder images')
     parser.add_argument('image_file', nargs='?', type=str,
                         default='', help='image file to publish')
+    parser.add_argument('image_folder_path', nargs='?', type=str,
+                        default='images', help='Path to the image folder')
     args = parser.parse_args()
     image_file = args.image_file
+    image_folder_path=args.image_folder_path
     bot = telegram.Bot(token=os.environ['TG_BOT_TOKEN'])
     if image_file:
-        try:
-            file_path = Path.cwd() / 'images' / image_file
-            send_image_to_tgchannel(file_path, bot, channel)
-        except FileNotFoundError:
-            print('no such file')
-            publish_random_image(bot, channel)
+        file_path = Path.cwd() / image_folder_path / image_file
+        send_image_to_tgchannel(file_path, bot, channel)
     else:
-        publish_random_image(bot, channel)
+        publish_random_image(bot, channel, image_folder_path)
 
 
 if __name__ == "__main__":

@@ -19,17 +19,21 @@ def main():
     )
     parser.add_argument('interval', nargs='?', type=float,
                         default=4, help='publishing interval (hours)')
+    parser.add_argument('image_folder_path', nargs='?', type=str,
+                        default='images', help='Path to the image folder')
     args = parser.parse_args()
-    try:
-        interval = float(os.getenv('PUBLISHING_INTERVAL', default=4))*3600
-    except KeyError:
+    interval = os.getenv('PUBLISHING_INTERVAL')
+    if interval:
+        interval = float(interval)*3600
+    else:
         interval = args.interval*3600
-    images = os.listdir('images')
+    image_folder_path = args.image_folder_path
+    images = os.listdir(image_folder_path)
     bot = telegram.Bot(token=os.environ['TG_BOT_TOKEN'])
     while True:
         shuffle(images)
         for image in images:
-            file_path = Path.cwd() / 'images' / image
+            file_path = Path.cwd() / image_folder_path / image
             send_image_to_tgchannel(file_path, bot, channel)
 
 
