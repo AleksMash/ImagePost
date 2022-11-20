@@ -4,15 +4,19 @@ from dotenv import load_dotenv
 import os
 
 
-load_dotenv()
+def main():
+    load_dotenv()
+    nasa_token = os.environ['NASA_TOKEN']
+    params = {'api_key': nasa_token, 'count': 15, 'thumbs': True}
+    response = requests.get('https://api.nasa.gov/planetary/apod', params=params)
+    response.raise_for_status()
+    medias = response.json()
+    for image_num, media in enumerate(medias):
+        if media['media_type'] == 'image':
+            image_url = media['url']
+            ext = get_file_extension(image_url)
+            load_image(image_url, 'images', f'nasa_apod_{image_num}{ext}')
 
-nasa_token = os.environ['NASA_TOKEN']
-params = {'api_key': nasa_token, 'count': 15, 'thumbs': True}
-response = requests.get('https://api.nasa.gov/planetary/apod', params=params)
-response.raise_for_status()
-medias = response.json()
-for image_num, media in enumerate(medias):
-    if media['media_type'] == 'image':
-        image_url = media['url']
-        ext = get_file_extension(image_url)
-        load_image(image_url, 'images', f'nasa_apod_{image_num}{ext}')
+
+if __name__ == "__main__":
+    main()
