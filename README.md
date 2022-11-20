@@ -62,7 +62,7 @@ pip install -r requirements.txt
 
 Запуск:
 
-```python publish_cycle.py [интервал] [путь к папке с изображениями]```
+```python publish_cycle.py [-i интервал] [-f путь к папке с изображениями]```
 
 где `интервал` - интервал публикации в часах. 
 
@@ -76,7 +76,7 @@ pip install -r requirements.txt
 
 Вызов: 
 
-```python publish_cycle.py [файл] [путь к папке с изображениями]```
+```python publish_cycle.py [-file файл] [-folder путь к папке с изображениями]```
 
 ### common.py
 

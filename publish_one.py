@@ -26,9 +26,9 @@ def main():
     channel = os.environ['TG_CHANNEL']
     parser = argparse.ArgumentParser(description='Publish specified'
                                                  ' images from the folder images')
-    parser.add_argument('image_file', nargs='?', type=str,
+    parser.add_argument('-file', 'image_file', nargs='?', type=str,
                         default='', help='image file to publish')
-    parser.add_argument('image_folder_path', nargs='?', type=str,
+    parser.add_argument('-folder', 'image_folder_path', nargs='?', type=str,
                         default='images', help='Path to the image folder')
     args = parser.parse_args()
     image_file = args.image_file
