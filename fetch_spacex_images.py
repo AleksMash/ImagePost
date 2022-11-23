@@ -11,6 +11,26 @@ class NoLaunchImagesError(BaseException):
     pass
 
 
+def get_images(launch_id):
+    response = requests.get(
+        f'https://api.spacexdata.com/v5/launches/{launch_id}'
+    )
+    if not response.ok:
+        raise NoLaunchError('There is no launch with specified ID')
+    images = response.json()['links']['flickr']['original']
+    if not len(images):
+        raise NoLaunchImagesError(f'There is no images for'
+                                  f' the launch: {launch_id}')
+    else:
+        return images
+
+
+def save_images(images):
+    for image_num, image_url in enumerate(images):
+        file_ext = get_file_extension(image_url)
+        load_image(image_url, 'images', f'spacex_{image_num}.{file_ext}')
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Fetch launch images from spacex API for the specified ID'
@@ -19,17 +39,8 @@ def main():
     parser.add_argument('launch_id', nargs='?',
                         default='latest', help='ID of the launch')
     args = parser.parse_args()
-    launch_id = args.launch_id
-    response = requests.get(f'https://api.spacexdata.com/v5/launches/{launch_id}')
-    if not response.ok:
-        raise NoLaunchError('There is no launch with specified ID')
-    images = response.json()['links']['flickr']['original']
-    if not len(images):
-        raise NoLaunchImagesError(f'There is no images for'
-                                  f' the launch: {launch_id}')
-    for image_num, image_url in enumerate(images):
-        file_ext = get_file_extension(image_url)
-        load_image(image_url, 'images', f'spacex_{image_num}.{file_ext}')
+    images = get_images(args.launch_id)
+    save_images(images)
 
 
 if __name__ == "__main__":
