@@ -20,7 +20,6 @@ pip install -r requirements.txt
 - TG_BOT_TOKEN - токен Telegram - бота, через которого будет производиться публикация в Telegram-канале (бот должен быть включен
 в число администраторов канала)
 - TG_CHANNEL - ссылка на Telegram-канал (например @MyChannel)
-- PUBLISHING_INTERVAL - интервал публикации фотографий ботом в часах.
 
 ### fetch_nasa_apod_pictures.py
 
