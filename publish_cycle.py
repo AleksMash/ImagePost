@@ -5,6 +5,7 @@ from random import shuffle
 import os
 from pathlib2 import Path
 from common import send_image_to_tgchannel
+from time import sleep
 
 
 class NetworkProblem(BaseException):
@@ -22,11 +23,10 @@ def main():
     parser.add_argument('-f', 'image_folder_path', nargs='?', type=str,
                         default='images', help='Path to the image folder')
     args = parser.parse_args()
-    interval = os.getenv('PUBLISHING_INTERVAL')
-    if interval:
-        interval = float(interval)*3600
-    else:
-        interval = args.interval*3600
+    interval = args.interval*3600
+    if not interval:
+        print('Интервал не должен быть нулевым')
+        return
     image_folder_path = args.image_folder_path
     images = os.listdir(image_folder_path)
     bot = telegram.Bot(token=os.environ['TG_BOT_TOKEN'])
@@ -35,6 +35,7 @@ def main():
         for image in images:
             file_path = Path.cwd() / image_folder_path / image
             send_image_to_tgchannel(file_path, bot, channel)
+            sleep(interval)
 
 
 if __name__ == "__main__":

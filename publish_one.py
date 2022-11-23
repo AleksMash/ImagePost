@@ -1,7 +1,7 @@
 import telegram
 import argparse
 from dotenv import load_dotenv
-from random import randint
+from random import choice
 import os
 from pathlib2 import Path
 from common import send_image_to_tgchannel
@@ -16,7 +16,7 @@ def publish_random_image(tg_bot, channel, image_folder_path):
     if not images:
         raise NoImagesError('There are no images.'
                             ' You should download them first.')
-    image = images[randint(0, len(images)-1)]
+    image = choice(images)
     file_path = Path.cwd() / image_folder_path / image
     send_image_to_tgchannel(file_path, tg_bot, channel)
 
