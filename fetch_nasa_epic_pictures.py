@@ -15,7 +15,7 @@ def get_images(params):
 
 def save_images(images, max_count, params):
     for image_num, image in enumerate(
-            images[:max_count if max_count <= len(images) else len(images)]
+            images[:max_count]
     ):
         file_name = image['image']
         image_date = dt.datetime.fromisoformat(
@@ -35,7 +35,8 @@ def main():
     args = parser.parse_args()
     params = {'api_key': os.environ['NASA_TOKEN']}
     images = get_images(params)
-    save_images(images, args.max, params)
+    max_count = args.max if args.max <= len(images) else len(images)
+    save_images(images, max_count, params)
 
 
 if __name__ == "__main__":

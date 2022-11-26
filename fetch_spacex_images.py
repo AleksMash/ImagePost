@@ -16,13 +16,16 @@ def get_images(launch_id):
         f'https://api.spacexdata.com/v5/launches/{launch_id}'
     )
     if not response.ok:
-        raise NoLaunchError('There is no launch with specified ID')
+        if response.status_code==404:
+            raise NoLaunchError('There is no launch with specified ID')
+        else:
+            if response.status_code in (404, 500):
+                response.raise_for_status()
     images = response.json()['links']['flickr']['original']
-    if not len(images):
+    if not images:
         raise NoLaunchImagesError(f'There is no images for'
                                   f' the launch: {launch_id}')
-    else:
-        return images
+    return images
 
 
 def save_images(images):

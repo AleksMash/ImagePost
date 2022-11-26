@@ -18,9 +18,9 @@ def main():
         description='Publish images from the folder images'
                     ' in specified interval (hours)'
     )
-    parser.add_argument('-i', 'interval', nargs='?', type=float,
+    parser.add_argument('-i', '--interval', nargs='?', type=float,
                         default=4, help='publishing interval (hours)')
-    parser.add_argument('-f', 'image_folder_path', nargs='?', type=str,
+    parser.add_argument('-f', '--image_folder_path', nargs='?', type=str,
                         default='images', help='Path to the image folder')
     args = parser.parse_args()
     interval = args.interval*3600
